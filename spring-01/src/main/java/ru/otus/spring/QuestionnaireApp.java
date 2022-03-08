@@ -1,7 +1,7 @@
-package ru.otus;
+package ru.otus.spring;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import ru.otus.services.QuestionsService;
+import ru.otus.spring.services.QuestionsService;
 
 public class QuestionnaireApp {
 

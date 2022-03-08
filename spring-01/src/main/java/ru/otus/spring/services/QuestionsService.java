@@ -1,8 +1,8 @@
-package ru.otus.services;
+package ru.otus.spring.services;
 
-import ru.otus.dao.QuestionsDao;
-import ru.otus.domain.Answer;
-import ru.otus.domain.Question;
+import ru.otus.spring.dao.QuestionsDao;
+import ru.otus.spring.domain.Answer;
+import ru.otus.spring.domain.Question;
 
 import java.util.List;
 
@@ -20,10 +20,10 @@ public class QuestionsService {
         System.out.println("Questionnaire");
         System.out.println("-------------");
         for (int i = 0; i < questions.size() ; i++) {
-            System.out.println((i + 1) + ". " + questions.get(i).getText());
-            List<Answer> answers = questions.get(i).getAnswers();
+            System.out.println((i + 1) + ". " + questions.get(i).text());
+            List<Answer> answers = questions.get(i).answers();
             for (int j = 0; j < answers.size(); j++) {
-                System.out.println("\t" + (j + 1) + ") " + answers.get(j).getText());
+                System.out.println("\t" + (j + 1) + ") " + answers.get(j).text());
             }
         }
     }

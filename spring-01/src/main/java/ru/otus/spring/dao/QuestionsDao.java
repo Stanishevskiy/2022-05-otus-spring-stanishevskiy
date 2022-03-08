@@ -1,4 +1,4 @@
-package ru.otus.dao;
+package ru.otus.spring.dao;
 
 import java.util.List;
 

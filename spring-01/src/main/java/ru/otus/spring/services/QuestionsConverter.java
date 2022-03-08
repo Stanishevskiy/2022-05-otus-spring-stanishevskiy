@@ -1,12 +1,11 @@
-package ru.otus.services;
+package ru.otus.spring.services;
 
-import ru.otus.domain.Answer;
-import ru.otus.domain.Question;
+import ru.otus.spring.domain.Answer;
+import ru.otus.spring.domain.Question;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class QuestionsConverter {
 
@@ -18,11 +17,11 @@ public class QuestionsConverter {
                         var answers = Arrays.stream(strArr)
                                 .skip(1)
                                 .map(Answer::new)
-                                .collect(Collectors.toList());
+                                .toList();
                         return new Question(strArr[0], answers);
                     } else {
                         return new Question(questionStr, new ArrayList<>());
                     }
-                }).collect(Collectors.toList());
+                }).toList();
     }
 }
