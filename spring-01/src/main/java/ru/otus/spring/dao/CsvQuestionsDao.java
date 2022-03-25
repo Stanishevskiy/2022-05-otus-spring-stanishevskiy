@@ -1,7 +1,9 @@
 package ru.otus.spring.dao;
 
 import org.springframework.core.io.ClassPathResource;
+import ru.otus.spring.domain.Question;
 import ru.otus.spring.exceptions.ReadingFileException;
+import ru.otus.spring.services.QuestionsConverter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,13 +14,15 @@ import java.util.List;
 public class CsvQuestionsDao implements QuestionsDao {
 
     private final String filePath;
+    private final QuestionsConverter questionsConverter;
 
-    public CsvQuestionsDao(String filePath) {
+    public CsvQuestionsDao(String filePath, QuestionsConverter questionsConverter) {
         this.filePath = filePath;
+        this.questionsConverter = questionsConverter;
     }
 
     @Override
-    public List<String> read() {
+    public List<Question> read() {
         try {
             var questionsIS = new ClassPathResource(filePath).getInputStream();
             var questionsReader = new BufferedReader(new InputStreamReader(questionsIS));
@@ -27,7 +31,8 @@ public class CsvQuestionsDao implements QuestionsDao {
             while (questionsReader.ready()) {
                 questionsStr.add(questionsReader.readLine());
             }
-            return questionsStr;
+            return questionsConverter.convertIntoObject(questionsStr);
+
         } catch (IOException e) {
             throw new ReadingFileException(e.getMessage(), e);
         }

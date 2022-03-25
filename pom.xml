@@ -10,9 +10,13 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>spring-01</module>
+        <module>spring-02</module>
     </modules>
 
     <properties>
+        <!-- Maven -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncodign>UTF-8</project.reporting.outputEncodign>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <!-- Spring -->

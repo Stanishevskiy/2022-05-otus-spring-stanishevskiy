@@ -16,7 +16,10 @@ public class QuestionsConverter {
                     if (strArr.length > 1) {
                         var answers = Arrays.stream(strArr)
                                 .skip(1)
-                                .map(Answer::new)
+                                .map(answerStr -> {
+                                    var answerStrSplit = answerStr.split("\\|");
+                                    return new Answer(answerStrSplit[0], Boolean.parseBoolean(answerStrSplit[1]));
+                                })
                                 .toList();
                         return new Question(strArr[0], answers);
                     } else {

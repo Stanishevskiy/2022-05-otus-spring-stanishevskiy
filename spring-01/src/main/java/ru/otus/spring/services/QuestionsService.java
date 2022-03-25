@@ -8,22 +8,22 @@ import java.util.List;
 
 public class QuestionsService {
     private final QuestionsDao questionsDao;
-    private final QuestionsConverter questionsConverter;
+    private final ConsoleIOService consoleIOService;
 
-    public QuestionsService(QuestionsDao questionsDao, QuestionsConverter questionsConverter) {
+    public QuestionsService(QuestionsDao questionsDao, ConsoleIOService consoleIOService) {
         this.questionsDao = questionsDao;
-        this.questionsConverter = questionsConverter;
+        this.consoleIOService = consoleIOService;
     }
 
     public void printAllQuestions() {
-        List<Question> questions = questionsConverter.convertIntoObject(questionsDao.read());
-        System.out.println("Questionnaire");
-        System.out.println("-------------");
+        List<Question> questions = questionsDao.read();
+        consoleIOService.outputString("Questionnaire");
+        consoleIOService.outputString("-------------");
         for (int i = 0; i < questions.size() ; i++) {
-            System.out.println((i + 1) + ". " + questions.get(i).text());
+            consoleIOService.outputString((i + 1) + ". " + questions.get(i).text());
             List<Answer> answers = questions.get(i).answers();
             for (int j = 0; j < answers.size(); j++) {
-                System.out.println("\t" + (j + 1) + ") " + answers.get(j).text());
+                consoleIOService.outputString("\t" + (j + 1) + ") " + answers.get(j).text());
             }
         }
     }
