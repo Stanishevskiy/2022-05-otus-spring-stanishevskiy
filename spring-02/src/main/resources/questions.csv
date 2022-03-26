@@ -1,0 +1,5 @@
+Which are the modules of core container?,Beans Core Context SpEL|true,Core Context ORM Web|false,Core Context Aspects Test|false,Bean Core Context Test|false
+What is bean scope?,Bean scope forces Spring to produce a new bean instance as per the scope defined|true,Bean scope defines the accessibility of bean in a java class|false,Bean scope defines the accessibility of bean in a java package|false,Bean scope defines the accessibility of bean in a web application|false
+What is default scope of bean in Spring framework?,singleton|true,prototype|false,request|false,session|false
+What is the scope of stateless bean?,global-session|false,singleton|true,prototype|false,request|false
+Where do you define DispatcherServlet?,In Beans configuration file|false,Web.xml file|true,Meta-inf/dispatcher.xml|false,Web-inf/ dispatcher.xml|false
