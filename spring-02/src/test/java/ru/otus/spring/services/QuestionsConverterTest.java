@@ -11,7 +11,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Конвертер csv-строк вопросов в объекты")
+@DisplayName("Конвертер строк-вопросов в объекты")
 class QuestionsConverterTest {
 
     private static final List<String> questionsStr = new ArrayList<>();
@@ -23,7 +23,7 @@ class QuestionsConverterTest {
     }
 
     @Test
-    @DisplayName("Строки преобразованы в объекты корректно")
+    @DisplayName("преобразует в объекты корректно")
     void convertIntoObject() {
         var converter = new QuestionsConverter();
         var questions = converter.convertIntoObject(questionsStr);

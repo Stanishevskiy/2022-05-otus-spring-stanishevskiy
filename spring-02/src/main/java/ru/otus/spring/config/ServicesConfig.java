@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import ru.otus.spring.dao.QuestionsDao;
 import ru.otus.spring.services.IOService;
 import ru.otus.spring.services.QuestionsConverter;
-import ru.otus.spring.services.QuestionnaireService;
+import ru.otus.spring.services.QuestionnaireServiceImpl;
 
 @Configuration
 public class ServicesConfig {
@@ -16,9 +16,9 @@ public class ServicesConfig {
     }
 
     @Bean
-    public QuestionnaireService questionsService(QuestionsDao questionsDao,
-                                                 IOService ioService) {
-        return new QuestionnaireService(questionsDao, ioService);
+    public QuestionnaireServiceImpl questionsService(QuestionsDao questionsDao,
+                                                     IOService ioService) {
+        return new QuestionnaireServiceImpl(questionsDao, ioService);
     }
 
 }
