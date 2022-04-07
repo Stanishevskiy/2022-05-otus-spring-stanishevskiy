@@ -1,27 +1,33 @@
 package ru.otus.spring.services;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import ru.otus.spring.dao.QuestionsDao;
 import ru.otus.spring.domain.Student;
+import ru.otus.spring.domain.Survey;
 
+@Service
 public class QuestionnaireServiceImpl implements QuestionnaireService {
 
     private final QuestionsDao questionsDao;
     private final IOService ioService;
+    private final int minScore;
 
-    @Value("${app.questions.minScore}")
-    private int minScore;
-
-    public QuestionnaireServiceImpl(QuestionsDao questionsDao, IOService ioService) {
+    public QuestionnaireServiceImpl(QuestionsDao questionsDao,
+                                    IOService ioService,
+                                    @Value("${app.questions.minScore}") int minScore) {
         this.questionsDao = questionsDao;
         this.ioService = ioService;
+        this.minScore = minScore;
     }
 
     @Override
     public void startQuestionnaire() {
         var student = collectStudentInfo();
-        askQuestions(student);
-        printResult(student);
+        var questions = questionsDao.read();
+        var survey = new Survey(questions, student);
+        askQuestions(survey);
+        printResult(survey);
     }
 
     private Student collectStudentInfo() {
@@ -33,11 +39,10 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
         return new Student(studentFirstName, studentLastName);
     }
 
-    private void askQuestions(Student student) {
+    private void askQuestions(Survey survey) {
         ioService.outputString("Questionnaire");
         ioService.outputString("-------------");
-        var questions = questionsDao.read();
-
+        var questions = survey.getQuestions();
         for (int i = 0; i < questions.size(); i++) {
             var question = questions.get(i);
             ioService.outputString((i + 1) + ". " + question.text());
@@ -53,17 +58,17 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
             }
             var studentAnswer = ioService.readAllowedIntWithPrompt("Input Your choice:", answers.size());
             if (studentAnswer == correctAnswer) {
-                student.setScore(student.getScore() + 1);
+                survey.setScore(survey.getScore() + 1);
             }
         }
         ioService.outputString("\n");
     }
 
-    private void printResult(Student student) {
+    private void printResult(Survey survey) {
         ioService.outputString("Result");
         ioService.outputString("-------");
-        var resultStr = (student.getScore() >= minScore) ? "SUCCESS" : "FAIL";
-        ioService.outputString(student.getFirstName() + " " + student.getLastName()
-                + ", Your result: " + student.getScore() + " - " + resultStr);
+        var resultStr = (survey.getScore() >= minScore) ? "SUCCESS" : "FAIL";
+        ioService.outputString(survey.getStudent().firstName() + " " + survey.getStudent().lastName()
+                + ", Your result: " + survey.getScore() + " - " + resultStr);
     }
 }

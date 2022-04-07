@@ -4,14 +4,16 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
 
-public class IOServiceConsole implements IOService {
+public class IOServiceImpl implements IOService {
 
     private final Scanner input;
     private final PrintStream output;
+    private final MessageProvider messageProvider;
 
-    public IOServiceConsole(InputStream input, PrintStream output) {
+    public IOServiceImpl(InputStream input, PrintStream output, MessageProvider messageProvider) {
         this.input = new Scanner(input);
         this.output = output;
+        this.messageProvider = messageProvider;
     }
 
     @Override
@@ -31,7 +33,7 @@ public class IOServiceConsole implements IOService {
                 }
                 return answerNum;
             } catch (NumberFormatException e) {
-                outputString("Input number value, from 1 to " + answersCount + " !");
+                outputString(String.format(messageProvider.getInputNumberValueIncorrect(), answersCount));
             }
         } while (true);
     }
