@@ -1,0 +1,4 @@
+app:
+  config:
+    locale: RU
+    min-score: 4
