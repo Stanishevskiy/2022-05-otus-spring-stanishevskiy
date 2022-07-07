@@ -3,6 +3,7 @@ package ru.otus.spring.services;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.otus.spring.config.AppProperties;
+import ru.otus.spring.config.MessageProvider;
 
 import java.util.Locale;
 
@@ -17,13 +18,13 @@ class MessageProviderTest {
     void russianMessagesWithRULocale() {
         var ruLocale = new Locale.Builder().setLanguage("ru").setRegion("RU").build();
         var appProps = new AppProperties();
-        appProps.setLocale(ruLocale);
+        appProps.setLangLocale(ruLocale);
 
-        var messageProvider = new MessageProvider(appProps);
+        var messageService = new MessageService(appProps, new MessageProvider());
         assertAll(
-                () -> assertEquals("Введите Ваше имя:", messageProvider.getStudentInputFirstName()),
-                () -> assertEquals("Результат", messageProvider.getQuestionnaireResultHeader()),
-                () -> assertEquals("Введите Ваш ответ:", messageProvider.getQuestionInputChoice())
+                () -> assertEquals("Введите Ваше имя:", messageService.getMessage("student.input-first-name")),
+                () -> assertEquals("Результат", messageService.getMessage("questionnaire.result-header")),
+                () -> assertEquals("Введите Ваш ответ:", messageService.getMessage("question.input-choice"))
         );
     }
 
@@ -32,13 +33,13 @@ class MessageProviderTest {
     void englishMessagesWithDefaultLocale() {
         var defaultLocale = Locale.getDefault();
         var appProps = new AppProperties();
-        appProps.setLocale(defaultLocale);
+        appProps.setLangLocale(defaultLocale);
 
-        var messageProvider = new MessageProvider(appProps);
+        var messageService = new MessageService(appProps, new MessageProvider());
         assertAll(
-                () -> assertEquals("Input Your First Name:", messageProvider.getStudentInputFirstName()),
-                () -> assertEquals("Result", messageProvider.getQuestionnaireResultHeader()),
-                () -> assertEquals("Input Your choice:", messageProvider.getQuestionInputChoice())
+                () -> assertEquals("Input Your First Name:", messageService.getMessage("student.input-first-name")),
+                () -> assertEquals("Result", messageService.getMessage("questionnaire.result-header")),
+                () -> assertEquals("Input Your choice:", messageService.getMessage("question.input-choice"))
         );
     }
 }

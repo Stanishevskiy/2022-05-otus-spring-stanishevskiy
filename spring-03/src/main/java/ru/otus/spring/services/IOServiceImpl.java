@@ -8,12 +8,10 @@ public class IOServiceImpl implements IOService {
 
     private final Scanner input;
     private final PrintStream output;
-    private final MessageProvider messageProvider;
 
-    public IOServiceImpl(InputStream input, PrintStream output, MessageProvider messageProvider) {
+    public IOServiceImpl(InputStream input, PrintStream output) {
         this.input = new Scanner(input);
         this.output = output;
-        this.messageProvider = messageProvider;
     }
 
     @Override
@@ -23,7 +21,7 @@ public class IOServiceImpl implements IOService {
     }
 
     @Override
-    public int readAllowedIntWithPrompt(String prompt, int answersCount) {
+    public int readAllowedIntWithPrompt(String prompt, int answersCount, String invalidValueStr) {
         outputString(prompt);
         do {
             try {
@@ -33,7 +31,7 @@ public class IOServiceImpl implements IOService {
                 }
                 return answerNum;
             } catch (NumberFormatException e) {
-                outputString(String.format(messageProvider.getQuestionIncorrectValue(), answersCount));
+                outputString(String.format(invalidValueStr, answersCount));
             }
         } while (true);
     }

@@ -1,4 +1,5 @@
 app:
   config:
-    locale: RU
+    lang-locale: en
+    file-path: ./questions_${app.config.lang-locale}.csv
     min-score: 4

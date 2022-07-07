@@ -4,5 +4,5 @@ public interface InputService {
 
     String readStringWithPrompt(String prompt);
 
-    int readAllowedIntWithPrompt(String prompt, int answersCount);
+    int readAllowedIntWithPrompt(String prompt, int answersCount, String invalidValueStr);
 }

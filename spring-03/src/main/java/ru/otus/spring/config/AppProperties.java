@@ -2,23 +2,26 @@ package ru.otus.spring.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import ru.otus.spring.services.IOServiceImpl;
-import ru.otus.spring.services.MessageProvider;
+import org.springframework.stereotype.Component;
 
 import java.util.Locale;
 
 @Data
-@Configuration
+@Component
 @ConfigurationProperties("app.config")
-public class AppProperties {
+public class AppProperties implements SourceProvider, LocaleProvider {
 
-    private Locale locale;
+    private Locale langLocale;
+    private String filePath;
     private long minScore;
 
-    @Bean
-    public IOServiceImpl ioService() {
-        return new IOServiceImpl(System.in, System.out, new MessageProvider(this));
+    @Override
+    public String getSourcePath() {
+        return filePath;
+    }
+
+    @Override
+    public Locale getLocale() {
+        return langLocale;
     }
 }

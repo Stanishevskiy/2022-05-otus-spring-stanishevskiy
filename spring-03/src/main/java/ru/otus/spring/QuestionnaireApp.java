@@ -1,25 +1,24 @@
 package ru.otus.spring;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import ru.otus.spring.services.QuestionnaireService;
 
+@RequiredArgsConstructor
 @SpringBootApplication
-public class QuestionnaireApp implements CommandLineRunner {
+public class QuestionnaireApp {
 
     private final QuestionnaireService questionnaireService;
-
-    public QuestionnaireApp(QuestionnaireService questionnaireService) {
-        this.questionnaireService = questionnaireService;
-    }
 
     public static void main(String[] args) {
         SpringApplication.run(QuestionnaireApp.class, args);
     }
 
-    @Override
-    public void run(String... args) {
-        questionnaireService.startQuestionnaire();
+    @Bean
+    public CommandLineRunner commandLineRunnerBean() {
+        return args -> questionnaireService.startQuestionnaire();
     }
 }
