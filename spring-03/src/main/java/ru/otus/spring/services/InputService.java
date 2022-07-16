@@ -2,7 +2,7 @@ package ru.otus.spring.services;
 
 public interface InputService {
 
-    String readStringWithPrompt(String prompt);
+    String inputStringWithPrompt(String prompt);
 
-    int readAllowedIntWithPrompt(String prompt, int answersCount, String invalidValueStr);
+    int inputAllowedNumWithPrompt(String prompt, int number, String errorStr);
 }

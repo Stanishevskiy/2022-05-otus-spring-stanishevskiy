@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.otus.spring.services.IOService;
-import ru.otus.spring.services.IOServiceImpl;
+import ru.otus.spring.services.impl.IOServiceImpl;
 
 @RequiredArgsConstructor
 @Configuration

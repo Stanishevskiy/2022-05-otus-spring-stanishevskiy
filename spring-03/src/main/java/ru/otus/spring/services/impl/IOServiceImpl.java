@@ -1,4 +1,6 @@
-package ru.otus.spring.services;
+package ru.otus.spring.services.impl;
+
+import ru.otus.spring.services.IOService;
 
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -15,23 +17,23 @@ public class IOServiceImpl implements IOService {
     }
 
     @Override
-    public String readStringWithPrompt(String prompt) {
+    public String inputStringWithPrompt(String prompt) {
         outputString(prompt);
         return input.nextLine();
     }
 
     @Override
-    public int readAllowedIntWithPrompt(String prompt, int answersCount, String invalidValueStr) {
+    public int inputAllowedNumWithPrompt(String prompt, int number, String errorStr) {
         outputString(prompt);
         do {
             try {
                 var answerNum = Integer.parseInt(input.nextLine());
-                if (answerNum < 1 || answerNum > answersCount) {
+                if (answerNum < 1 || answerNum > number) {
                     throw new NumberFormatException();
                 }
                 return answerNum;
             } catch (NumberFormatException e) {
-                outputString(String.format(invalidValueStr, answersCount));
+                outputString(String.format(errorStr, number));
             }
         } while (true);
     }

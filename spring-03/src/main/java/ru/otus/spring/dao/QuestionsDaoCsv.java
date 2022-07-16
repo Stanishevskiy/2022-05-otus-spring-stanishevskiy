@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import ru.otus.spring.config.SourceProvider;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.exceptions.ReadingFileException;
-import ru.otus.spring.services.QuestionsConverter;
+import ru.otus.spring.mapper.QuestionsConverter;
 
 import java.io.BufferedReader;
 import java.io.IOException;

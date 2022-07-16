@@ -1,4 +1,4 @@
-package ru.otus.spring.services;
+package ru.otus.spring.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -6,6 +6,8 @@ import ru.otus.spring.config.AppProperties;
 import ru.otus.spring.dao.QuestionsDao;
 import ru.otus.spring.domain.Questionnaire;
 import ru.otus.spring.domain.Student;
+import ru.otus.spring.services.IOService;
+import ru.otus.spring.services.QuestionnaireService;
 
 @RequiredArgsConstructor
 @Service
@@ -14,7 +16,7 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     private final AppProperties appProps;
     private final QuestionsDao questionsDao;
     private final IOService ioService;
-    private final MessageService messageService;
+    private final MessageServiceImpl msgService;
 
     @Override
     public void startQuestionnaire() {
@@ -26,19 +28,17 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     }
 
     private Student collectStudentInfo() {
-        ioService.outputString(messageService.getMessage("student.info"));
-        ioService.outputString(messageService.getLineSeparator());
-        var studentFirstName = ioService
-                .readStringWithPrompt(messageService.getMessage("student.input-first-name"));
-        var studentLastName = ioService
-                .readStringWithPrompt(messageService.getMessage("student.input-last-name"));
+        msgService.writeMsgByCode("student.info");
+        msgService.writeLineSeparator();
+        var studentFirstName = msgService.readWithPromptCode("student.input-first-name");
+        var studentLastName = msgService.readWithPromptCode("student.input-last-name");
         ioService.outputString("\n");
         return new Student(studentFirstName, studentLastName);
     }
 
     private void askQuestions(Questionnaire questionnaire) {
-        ioService.outputString(messageService.getMessage("questionnaire.header"));
-        ioService.outputString(messageService.getLineSeparator());
+        msgService.writeMsgByCode("questionnaire.header");
+        msgService.writeLineSeparator();
         var questions = questionnaire.getQuestions();
         for (int i = 0; i < questions.size(); i++) {
             var question = questions.get(i);
@@ -53,10 +53,9 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
                 }
                 ioService.outputString("\t" + (j + 1) + ") " + answer.text());
             }
-            var studentAnswer = ioService
-                    .readAllowedIntWithPrompt(messageService.getMessage("question.input-choice"),
-                                              answers.size(),
-                                              messageService.getMessage("question.invalid-value"));
+            var studentAnswer = msgService.readAllowedNumWithPromptCode("question.input-choice",
+                                                                        answers.size(),
+                                                                        "question.invalid-value");
             if (studentAnswer == correctAnswer) {
                 questionnaire.setScore(questionnaire.getScore() + 1);
             }
@@ -65,14 +64,16 @@ public class QuestionnaireServiceImpl implements QuestionnaireService {
     }
 
     private void printResult(Questionnaire questionnaire) {
-        ioService.outputString(messageService.getMessage("questionnaire.result-header"));
-        ioService.outputString(messageService.getLineSeparator());
+        msgService.writeMsgByCode("questionnaire.result-header");
+        msgService.writeLineSeparator();
         var resultStr = (questionnaire.getScore() >= appProps.getMinScore())
-                ? messageService.getMessage("result.success")
-                : messageService.getMessage("result.fail");
-        var questionnaireResult = String.format(messageService.getMessage("questionnaire.student-result"),
-                questionnaire.getStudent().firstName(), questionnaire.getStudent().lastName(),
-                questionnaire.getScore(), resultStr);
+                ? msgService.getMessage("result.success")
+                : msgService.getMessage("result.fail");
+        var questionnaireResult = String.format(msgService.getMessage("questionnaire.student-result"),
+                                                questionnaire.getStudent().firstName(),
+                                                questionnaire.getStudent().lastName(),
+                                                questionnaire.getScore(),
+                                                resultStr);
         ioService.outputString(questionnaireResult);
     }
 }

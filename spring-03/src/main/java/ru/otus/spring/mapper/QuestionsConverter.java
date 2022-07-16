@@ -1,4 +1,4 @@
-package ru.otus.spring.services;
+package ru.otus.spring.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.otus.spring.domain.Answer;

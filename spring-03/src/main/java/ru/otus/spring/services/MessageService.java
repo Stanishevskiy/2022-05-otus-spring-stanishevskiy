@@ -1,25 +1,12 @@
 package ru.otus.spring.services;
 
+public interface MessageService {
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-import ru.otus.spring.config.LocaleProvider;
-import ru.otus.spring.config.MessageProvider;
+    String readWithPromptCode(String promptCode);
 
-@RequiredArgsConstructor
-@Component
-public class MessageService {
+    int readAllowedNumWithPromptCode(String promptCode, int number, String errorStrCode);
 
-    public static final String LINE_SEPARATOR = "------------";
-    private final LocaleProvider localeProvider;
-    private final MessageProvider msgProvider;
+    void writeMsgByCode(String msgCode);
 
-    public String getLineSeparator() {
-        return LINE_SEPARATOR;
-    }
-
-    public String getMessage(String msgCode) {
-        return msgProvider.getMessage(msgCode, localeProvider.getLocale());
-    }
-
+    String getMessage(String msgCode);
 }
