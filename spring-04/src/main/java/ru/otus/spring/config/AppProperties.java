@@ -12,12 +12,12 @@ import java.util.Locale;
 public class AppProperties implements SourceProvider, LocaleProvider {
 
     private Locale langLocale;
-    private String filePath;
+    private String fileName;
     private long minScore;
 
     @Override
     public String getSourcePath() {
-        return filePath;
+        return String.format("./%s_%s.csv", fileName, langLocale);
     }
 
     @Override

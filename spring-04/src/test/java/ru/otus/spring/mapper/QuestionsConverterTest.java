@@ -1,4 +1,4 @@
-package ru.otus.spring.services;
+package ru.otus.spring.mapper;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;

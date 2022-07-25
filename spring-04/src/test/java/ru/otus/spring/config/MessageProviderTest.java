@@ -1,12 +1,11 @@
-package ru.otus.spring.services;
+package ru.otus.spring.config;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import ru.otus.spring.config.AppProperties;
-import ru.otus.spring.config.MessageProvider;
+import ru.otus.spring.services.IOService;
 import ru.otus.spring.services.impl.MessageServiceImpl;
 
 import java.util.Locale;
