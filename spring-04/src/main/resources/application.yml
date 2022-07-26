@@ -1,0 +1,5 @@
+app:
+  config:
+    lang-locale: en
+    file-name: questions
+    min-score: 4

@@ -1,0 +1,5 @@
+app:
+  config:
+    lang-locale: ru
+    file-name: myFile
+    min-score: 1

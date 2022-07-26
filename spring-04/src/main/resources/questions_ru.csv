@@ -1,0 +1,5 @@
+Какие модули относятся к основному контейнеру?,Beans Core Context SpEL|true,Core Context ORM Web|false,Core Context Aspects Test|false,Bean Core Context Test|false
+Что такое область действия bean-компонента?,Область действия bean-компонента заставляет Spring создавать новый экземпляр bean-компонента в соответствии с заданной областью|true,Область действия bean-компонента определяет доступность bean-компонента в классе Java|false,Область действия bean-компонента определяет доступность bean-компонента в пакете Java|false,Область действия bean-компонента определяет доступность bean-компонента в веб-приложении|false
+Какова область действия bean-компонента по умолчанию в среде Spring?,singleton|true,prototype,request,session
+Какова область действия bean-компонента без сохранения состояния?,global-session|false,singleton|true,prototype|false,request|false
+Где вы определяете DispatcherServlet?,В файле конфигурации Beans|false,В файле Web.xml|true,Meta-inf/dispatcher.xml,Web-inf/dispatcher.xml
