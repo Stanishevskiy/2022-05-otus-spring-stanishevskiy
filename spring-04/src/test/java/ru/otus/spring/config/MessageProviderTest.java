@@ -2,9 +2,10 @@ package ru.otus.spring.config;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.shell.jline.InteractiveShellApplicationRunner;
+import org.springframework.shell.jline.ScriptShellApplicationRunner;
 import ru.otus.spring.services.IOService;
 import ru.otus.spring.services.impl.MessageServiceImpl;
 
@@ -13,11 +14,14 @@ import java.util.Locale;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest(properties = {
+        InteractiveShellApplicationRunner.SPRING_SHELL_INTERACTIVE_ENABLED + "=false",
+        ScriptShellApplicationRunner.SPRING_SHELL_SCRIPT_ENABLED + "=false"
+})
 @DisplayName("Поставщик сообщений")
 class MessageProviderTest {
 
-    @Mock
+    @Autowired
     private IOService ioService;
     @Test
     @DisplayName("при заданной локали RU возвращаются сообщения на русском")
@@ -37,10 +41,10 @@ class MessageProviderTest {
 
     @Test
     @DisplayName("при локали по умолчанию возвращаются сообщения на английском")
-    void englishMessagesWithDefaultLocale() {
-        var defaultLocale = Locale.getDefault();
+    void englishMessagesWithEnLocale() {
+        var enLocale = new Locale.Builder().setLanguage("en").setRegion("EN").build();
         var appProps = new AppProperties();
-        appProps.setLangLocale(defaultLocale);
+        appProps.setLangLocale(enLocale);
 
         var messageService = new MessageServiceImpl(appProps, new MessageProvider(), ioService);
         assertAll(

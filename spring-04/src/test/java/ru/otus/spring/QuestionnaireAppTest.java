@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class QuestionnaireAppTest {
 
     @Autowired
-    AppProperties appProperties;
+    private AppProperties appProperties;
 
     @Test
     @DisplayName("Контекст поднимается корректно")

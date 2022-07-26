@@ -33,7 +33,7 @@ public class QuestionnaireCommands {
         log.info("Set app language: {}", lang);
     }
 
-    @ShellMethod("Login to questionnaire app")
+    @ShellMethod(key = "login", value = "Login to questionnaire app")
     public void login(@ShellOption({"-fn", "--firstname"}) String firstName,
                       @ShellOption({"-ln", "--lastname"}) String lastName) {
         student = new Student(firstName, lastName);
@@ -42,20 +42,20 @@ public class QuestionnaireCommands {
         isLoggedIn = true;
     }
 
-    @ShellMethod("Student try pass test")
+    @ShellMethod(key = "test", value = "Student try pass test")
     public void test() {
         log.info("Student {} {} - try test", student.firstName(), student.lastName());
         questionnaireService.startQuestionnaire();
         isTestTried = true;
     }
 
-    @ShellMethod("Print student test result")
+    @ShellMethod(key = "result", value = "Print student test result")
     public void result() {
         log.info("Student {} {} - has result", student.firstName(), student.lastName());
         questionnaireService.printResult();
     }
 
-    @ShellMethod("Student logout from app")
+    @ShellMethod(key = "logout", value = "Student logout from app")
     public void logout() {
         log.info("Student {} {} - logout", student.firstName(), student.lastName());
         isLoggedIn = false;
