@@ -19,5 +19,5 @@ create table book (
     genre_id int not null,
     primary key (id),
     foreign key (author_id) references author(id),
-    foreign key (genre_id) references genre(id),
+    foreign key (genre_id) references genre(id)
 );
