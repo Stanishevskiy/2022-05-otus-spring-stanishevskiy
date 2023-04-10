@@ -43,6 +43,25 @@ public class BookDaoJdbc implements BookDao {
         return jdbc.query(query, params, bookRowMapper());
     }
 
+    @Override
+    public void updateBook(Book book) {
+        var query = "update book " +
+                "set name = :name, genre_id = :genreId, author_id = :authorId " +
+                "where id = :id";
+        var params = Map.of("name", book.name(),
+                "genreId", book.genreId(),
+                "authorId", book.authorId(),
+                "id", book.id());
+        jdbc.update(query, params);
+    }
+
+    @Override
+    public void deleteBookById(long id) {
+        var query = "delete from book where id = :id";
+        var params = Map.of("id", id);
+        jdbc.update(query, params);
+    }
+
     private RowMapper<Book> bookRowMapper() {
         return (rs, rowNum) -> new Book(rs.getLong(1),
                 rs.getString(2),

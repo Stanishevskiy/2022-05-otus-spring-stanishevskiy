@@ -6,6 +6,7 @@ import ru.otus.spring.dao.AuthorDao;
 import ru.otus.spring.dao.BookDao;
 import ru.otus.spring.dao.GenreDao;
 import ru.otus.spring.domain.Author;
+import ru.otus.spring.domain.Book;
 import ru.otus.spring.domain.Genre;
 import ru.otus.spring.service.BookstoreService;
 import ru.otus.spring.service.IOService;
@@ -31,7 +32,7 @@ public class BookstoreServiceImpl implements BookstoreService {
     }
 
     public void getAllAuthors() {
-        var authors = authorDao.findAllAuthors();
+        var authors = authorDao.getAllAuthors();
         ioService.outputCollection(authors);
     }
 
@@ -68,5 +69,13 @@ public class BookstoreServiceImpl implements BookstoreService {
 
         var books = bookDao.findBooksByAuthorId(authorId);
         ioService.outputCollection(books);
+    }
+
+    public void updateBook(Book book) {
+        bookDao.updateBook(book);
+    }
+
+    public void deleteBookById(long id) {
+        bookDao.deleteBookById(id);
     }
 }

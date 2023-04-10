@@ -17,7 +17,7 @@ public class AuthorDaoJdbc implements AuthorDao {
     private final NamedParameterJdbcOperations jdbc;
 
     @Override
-    public List<Author> findAllAuthors() {
+    public List<Author> getAllAuthors() {
         var query = "select * from author";
         return jdbc.query(query, authorRowMapper());
     }
