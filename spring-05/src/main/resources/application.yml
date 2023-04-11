@@ -1,8 +1,8 @@
 spring:
   datasource:
     url: jdbc:h2:mem:testdb
-  sql:
-    init:
-      mode: always
-      schema-locations: schema.sql
-      data-locations: data.sql
+  flyway:
+    enabled: true
+  h2:
+    console:
+      enabled: true
