@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
+import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
+import ru.otus.spring.domain.Genre;
 import ru.otus.spring.service.impl.BookstoreServiceImpl;
 
 @ShellComponent
@@ -27,6 +29,27 @@ public class BookstoreCommands {
         bookstore.findGenresByName(name);
     }
 
+    @ShellMethod(key = "genre-add", value = "Command allow to add genre)")
+    public void addGenre(@ShellOption({"-n", "--name"}) String name) {
+        log.info("Add genre: {}", name);
+        bookstore.addGenre(name);
+    }
+
+    @ShellMethod(key = "genre-update", value = "Command allow to update genre")
+    public void updateGenre(@ShellOption({"-i", "--id"}) long id,
+                           @ShellOption({"-n", "--name"}) String name) {
+        log.info("Update genre: {}", id);
+        var genre = new Genre(id, name);
+        bookstore.updateGenre(genre);
+    }
+
+    @ShellMethod(key = "genre-delete", value = "Command allow to delete genre by id")
+    public void deleteGenre(@ShellOption({"-i", "--id"}) long id) {
+        log.info("Delete genre by id: {}", id);
+        bookstore.deleteGenreById(id);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
     @ShellMethod(key = "authors", value = "Command allow to get all stored authors in Bookstore")
     public void getAllAuthors() {
         log.info("Get all stored authors:");
@@ -39,6 +62,28 @@ public class BookstoreCommands {
         bookstore.findAuthorsByName(name);
     }
 
+    @ShellMethod(key = "author-add", value = "Command allow to add author")
+    public void addAuthor(@ShellOption({"-n", "--name"}) String name) {
+        log.info("Add author: {}", name);
+        bookstore.addAuthor(name);
+    }
+
+    @ShellMethod(key = "author-update", value = "Command allow to update author")
+    public void updateAuthor(@ShellOption({"-i", "--id"}) long id,
+                             @ShellOption({"-n", "--name"}) String name) {
+        log.info("Update author: {}", id);
+        var author = new Author(id, name);
+        bookstore.updateAuthor(author);
+    }
+
+    @ShellMethod(key = "author-delete", value = "Command allow to delete author by id")
+    public void deleteAuthor(@ShellOption({"-i", "--id"}) long id) {
+        log.info("Delete author by id: {}", id);
+        bookstore.deleteAuthorById(id);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+
     @ShellMethod(key = "books", value = "Command allow to get all stored books in Bookstore")
     public void getAllBooks() {
         log.info("Get all stored books:");
@@ -49,6 +94,14 @@ public class BookstoreCommands {
     public void findBooksByName(@ShellOption({"-n", "--name"}) String name) {
         log.info("Find books by name: {}", name);
         bookstore.findBooksByName(name);
+    }
+
+    @ShellMethod(key = "book-add", value = "Command allow to add book")
+    public void addBook(@ShellOption({"-n", "--name"}) String name,
+                        @ShellOption({"-a", "--author-id"}) long authorId,
+                        @ShellOption({"-g", "--genre-id"}) long genreId) {
+        log.info("Add book: {}", name);
+        bookstore.addBook(name, authorId, genreId);
     }
 
     @ShellMethod(key = "book-genre", value = "Command allow to find books by genre_name")
@@ -69,7 +122,7 @@ public class BookstoreCommands {
                            @ShellOption({"-a", "--author-id"}) long authorId,
                            @ShellOption({"-g", "--genre-id"}) long genreId) {
         log.info("Update book: {}", id);
-        var book = new Book(id, name, authorId, genreId);
+        var book = new Book(id, name, genreId);
         bookstore.updateBook(book);
     }
 

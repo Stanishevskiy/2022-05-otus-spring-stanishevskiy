@@ -7,4 +7,8 @@ insert into author (name)
            ('J. R. R. Tolkien'),
            ('George R. R. Martin'),
            ('Agatha Christie'),
-           ('Fedor Dostoevsky');
+           ('Fedor Dostoevsky'),
+           ('Arkady Strugatsky'),
+           ('Boris Strugaysky'),
+           ('Wilhelm Grimm'),
+           ('Jacob Grimm');
