@@ -17,6 +17,14 @@ public class BookDaoJdbc implements BookDao {
     private final NamedParameterJdbcOperations jdbc;
 
     @Override
+    public void addBook(String name, long genreId) {
+        var query = "insert into book (name, genre_id) " +
+                "values (:name, :genre_id)";
+        var params = Map.of("name", name, "genre_id", genreId);
+        jdbc.update(query, params);
+    }
+
+    @Override
     public List<Book> getAllBooks() {
         var query = "select * from book";
         return jdbc.query(query, bookRowMapper());
@@ -30,6 +38,13 @@ public class BookDaoJdbc implements BookDao {
     }
 
     @Override
+    public List<Book> findBooksByIds(List<Long> ids) {
+        var query = "select * from book where id in (:ids)";
+        var params = Map.of("ids", ids);
+        return jdbc.query(query, params, bookRowMapper());
+    }
+
+    @Override
     public List<Book> findBooksByGenreId(long genreId) {
         var query = "select * from book where genre_id = :genreId";
         var params = Map.of("genreId", genreId);
@@ -37,20 +52,12 @@ public class BookDaoJdbc implements BookDao {
     }
 
     @Override
-    public List<Book> findBooksByAuthorId(long authorId) {
-        var query = "select * from book where author_id = :authorId";
-        var params = Map.of("authorId", authorId);
-        return jdbc.query(query, params, bookRowMapper());
-    }
-
-    @Override
     public void updateBook(Book book) {
         var query = "update book " +
-                "set name = :name, genre_id = :genreId, author_id = :authorId " +
+                "set name = :name, genre_id = :genreId " +
                 "where id = :id";
         var params = Map.of("name", book.name(),
                 "genreId", book.genreId(),
-                "authorId", book.authorId(),
                 "id", book.id());
         jdbc.update(query, params);
     }
@@ -65,7 +72,6 @@ public class BookDaoJdbc implements BookDao {
     private RowMapper<Book> bookRowMapper() {
         return (rs, rowNum) -> new Book(rs.getLong(1),
                 rs.getString(2),
-                rs.getLong(3),
-                rs.getLong(4));
+                rs.getLong(3));
     }
 }

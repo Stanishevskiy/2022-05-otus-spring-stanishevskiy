@@ -17,6 +17,14 @@ public class AuthorDaoJdbc implements AuthorDao {
     private final NamedParameterJdbcOperations jdbc;
 
     @Override
+    public void addAuthor(String name) {
+        var query = "insert into author (name) " +
+                "values (:name)";
+        var params = Map.of("name", name);
+        jdbc.update(query, params);
+    }
+
+    @Override
     public List<Author> getAllAuthors() {
         var query = "select * from author";
         return jdbc.query(query, authorRowMapper());
@@ -34,6 +42,22 @@ public class AuthorDaoJdbc implements AuthorDao {
         var query = "select * from author where id = :id";
         var params = Map.of("id", id);
         return jdbc.queryForObject(query, params, authorRowMapper());
+    }
+
+    @Override
+    public void updateAuthor(Author author) {
+        var query = "update author " +
+                "set name = :name " +
+                "where id = :id";
+        var params = Map.of("name", author.name(), "id", author.id());
+        jdbc.update(query, params);
+    }
+
+    @Override
+    public void deleteAuthorById(long id) {
+        var query = "delete author where id = :id";
+        var params = Map.of("id", id);
+        jdbc.update(query, params);
     }
 
     private RowMapper<Author> authorRowMapper() {

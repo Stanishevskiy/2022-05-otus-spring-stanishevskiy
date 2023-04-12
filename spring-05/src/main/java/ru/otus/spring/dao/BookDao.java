@@ -6,13 +6,15 @@ import java.util.List;
 
 public interface BookDao {
 
+    void addBook(String name, long genreId);
+
     List<Book> getAllBooks();
 
     List<Book> findBooksByName(String name);
 
-    List<Book> findBooksByGenreId(long genreId);
+    List<Book> findBooksByIds(List<Long> ids);
 
-    List<Book> findBooksByAuthorId(long genreId);
+    List<Book> findBooksByGenreId(long genreId);
 
     void updateBook(Book book);
 

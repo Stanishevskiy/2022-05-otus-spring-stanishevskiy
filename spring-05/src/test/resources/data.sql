@@ -1,11 +1,22 @@
-insert into genre (name) values ('Fantasy');
-insert into genre (name) values ('Novel');
+insert into genre (name)
+    values ('Fantasy'),
+           ('Novel'),
+           ('Old Genre');
 
-insert into author (name) values ('J. R. R. Tolkien');
-insert into author (name) values ('Agatha Christie');
-insert into author (name) values ('Fedor Dostoevsky');
+insert into author (name)
+    values ('J. R. R. Tolkien'),
+           ('Agatha Christie'),
+           ('Fedor Dostoevsky'),
+           ('Old Author');
 
-insert into book (name, author_id, genre_id) values ('Hobbit', 1, 1);
-insert into book (name, author_id, genre_id) values ('The Lord of the Rings', 1, 1);
-insert into book (name, author_id, genre_id) values ('Murder on the Orient Express', 2, 2);
-insert into book (name, author_id, genre_id) values ('The Idiot', 3, 2);
+insert into book (name, genre_id)
+    values ('Hobbit', 1),
+           ('The Lord of the Rings', 1),
+           ('Murder on the Orient Express', 2),
+           ('The Idiot', 2);
+
+insert into author_book (author_id, book_id)
+    values (1, 1),
+           (1, 2),
+           (2, 3),
+           (3, 4);

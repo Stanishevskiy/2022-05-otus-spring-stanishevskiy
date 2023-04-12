@@ -17,6 +17,14 @@ public class GenreDaoJdbc implements GenreDao {
     private final NamedParameterJdbcOperations jdbc;
 
     @Override
+    public void addGenre(String name) {
+        var query = "insert into genre (name) " +
+                "values (:name);";
+        var params = Map.of("name", name);
+        jdbc.update(query, params);
+    }
+
+    @Override
     public List<Genre> getAllGenres() {
         var query = "select * from genre";
         return jdbc.query(query, genreRowMapper());
@@ -34,6 +42,22 @@ public class GenreDaoJdbc implements GenreDao {
         var query = "select * from genre where id = :id";
         var params = Map.of("id", id);
         return jdbc.queryForObject(query, params, genreRowMapper());
+    }
+
+    @Override
+    public void updateGenre(Genre genre) {
+        var query = "update genre " +
+                "set name = :name " +
+                "where id = :id";
+        var params = Map.of("name", genre.name(), "id", genre.id());
+        jdbc.update(query, params);
+    }
+
+    @Override
+    public void deleteGenreById(long id) {
+        var query = "delete from genre where id = :id";
+        var params = Map.of("id", id);
+        jdbc.update(query, params);
     }
 
     private RowMapper<Genre> genreRowMapper() {
