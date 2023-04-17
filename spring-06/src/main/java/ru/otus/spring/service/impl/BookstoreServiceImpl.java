@@ -2,12 +2,10 @@ package ru.otus.spring.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.otus.spring.dao.AuthorBookMergingDao;
-import ru.otus.spring.dao.AuthorDao;
-import ru.otus.spring.dao.BookDao;
-import ru.otus.spring.dao.GenreDao;
+import ru.otus.spring.dao.*;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
+import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
 import ru.otus.spring.service.BookstoreService;
 import ru.otus.spring.service.IOService;
@@ -19,7 +17,8 @@ public class BookstoreServiceImpl implements BookstoreService {
     private final GenreDao genreDao;
     private final AuthorDao authorDao;
     private final BookDao bookDao;
-    private final AuthorBookMergingDao mergingDao;
+    private final AuthorBookRelationDao relationDao;
+    private final CommentDao commentDao;
 
     private final IOService ioService;
 
@@ -92,19 +91,22 @@ public class BookstoreServiceImpl implements BookstoreService {
                 .orElseThrow()
                 .id();
 
-        mergingDao.addAuthorBookIds(authorId, bookId);
+        relationDao.addAuthorBookIds(authorId, bookId);
     }
 
+    @Override
     public void getAllBooks() {
         var books = bookDao.getAllBooks();
         ioService.outputCollection(books);
     }
 
+    @Override
     public void findBooksByName(String name) {
         var books = bookDao.findBooksByName(name);
         ioService.outputCollection(books);
     }
 
+    @Override
     public void findBooksByGenreName(String genreName) {
         var genres = genreDao.findGenresByName(genreName);
         var genreId = genres.stream().anyMatch(g -> g.name().equals(genreName))
@@ -122,17 +124,53 @@ public class BookstoreServiceImpl implements BookstoreService {
                 ? authors.stream().filter(a -> a.name().equals(authorName)).findFirst().orElseThrow().id()
                 : authors.stream().findFirst().orElse(new Author(0, "Not Present")).id();
 
-        var bookIds = mergingDao.bookIdsByAuthor(authorId);
+        var bookIds = relationDao.bookIdsByAuthor(authorId);
         var books = bookDao.findBooksByIds(bookIds);
         ioService.outputCollection(books);
     }
 
-    public void updateBook(Book book) {
+    @Override
+    public void updateBook(Book book, long authorId) {
         bookDao.updateBook(book);
+        relationDao.updateAuthorIdByBookId(book.id(), authorId);
     }
 
+    @Override
     public void deleteBookById(long id) {
-        mergingDao.deleteBookId(id);
+        relationDao.deleteBookId(id);
         bookDao.deleteBookById(id);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+
+    @Override
+    public void addComment(String description, long bookId) {
+        commentDao.addComment(description, bookId);
+    }
+
+    @Override
+    public void getAllComments() {
+        var comments = commentDao.getAllComments();
+        ioService.outputCollection(comments);
+    }
+
+    @Override
+    public void getCommentsByBookName(String bookName) {
+        var bookId = bookDao.findBooksByName(bookName).stream()
+                .findFirst()
+                .orElseThrow()
+                .id();
+        var comments = commentDao.getCommentByBookId(bookId);
+        ioService.outputCollection(comments);
+    }
+
+    @Override
+    public void updateComment(Comment comment) {
+        commentDao.updateComment(comment);
+    }
+
+    @Override
+    public void deleteCommentById(long id) {
+        commentDao.deleteCommentById(id);
     }
 }

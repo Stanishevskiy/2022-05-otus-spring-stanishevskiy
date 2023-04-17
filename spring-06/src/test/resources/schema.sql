@@ -1,3 +1,4 @@
+drop table comment if exists;
 drop table author_book if exists;
 drop table book if exists;
 drop table author if exists;
@@ -29,3 +30,11 @@ create table author_book (
     foreign key (author_id) references author(id),
     foreign key (book_id) references book(id)
 );
+
+create table comment (
+    id int not null auto_increment,
+    description varchar(2550),
+    book_id int not null,
+    primary key (id),
+    foreign key (book_id) references book(id)
+)

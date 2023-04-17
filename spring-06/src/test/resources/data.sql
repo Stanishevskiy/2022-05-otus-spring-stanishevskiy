@@ -20,3 +20,9 @@ insert into author_book (author_id, book_id)
            (1, 2),
            (2, 3),
            (3, 4);
+
+insert into comment (description, book_id)
+    values ('description Hobbit', 1),
+           ('description The Lord 1', 2),
+           ('description The Lord 2', 2),
+           ('description Idiot', 4);

@@ -7,6 +7,7 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.spring.domain.Author;
 import ru.otus.spring.domain.Book;
+import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
 import ru.otus.spring.service.impl.BookstoreServiceImpl;
 
@@ -123,12 +124,51 @@ public class BookstoreCommands {
                            @ShellOption({"-g", "--genre-id"}) long genreId) {
         log.info("Update book: {}", id);
         var book = new Book(id, name, genreId);
-        bookstore.updateBook(book);
+        bookstore.updateBook(book, authorId);
     }
 
     @ShellMethod(key = "book-delete", value = "Command allow to delete book by id")
     public void deleteBook(@ShellOption({"-i", "--id"}) long id) {
         log.info("Delete book by id: {}", id);
         bookstore.deleteBookById(id);
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------
+
+    @ShellMethod(key = "comment-add", value = "Command allow to add book")
+    public void addComment(@ShellOption({"-d", "--description"}) String description,
+                           @ShellOption({"-b", "--book-id"}) long bookId) {
+        log.info("Add comment: {}\n\t to book id: {}", description, bookId);
+        bookstore.addComment(description, bookId);
+    }
+
+    @ShellMethod(key = "comments", value = "Command get all comment")
+    public void getAllComments() {
+        log.info("Get all comments:");
+        bookstore.getAllComments();
+    }
+
+    @ShellMethod(key = "comment", value = "Command allow to get comments by book name")
+    public void getCommentByBookName(@ShellOption({"-b", "--book-name"}) String bookName) {
+        log.info("Get comments for book name: {}", bookName);
+        bookstore.getCommentsByBookName(bookName);
+    }
+
+    @ShellMethod(key = "comment-update", value = "Command allow to update comment object")
+    public void updateComment(@ShellOption({"-i", "--id"}) long id,
+                              @ShellOption({"-d", "--description"}) String description,
+                              @ShellOption({"-b", "--book-id"}) long bookId) {
+        log.info("""
+                Update book by id: {}
+                    with description: {}
+                    with bookId: {}""", id, description, bookId);
+        var comment = new Comment(id, description, bookId);
+        bookstore.updateComment(comment);
+    }
+
+    @ShellMethod(key = "comment-delete", value = "Command allow to delete comment object")
+    public void deleteCommentById(@ShellOption({"-i", "--id"}) long id) {
+        log.info("Delete comment by id: {}", id);
+        bookstore.deleteCommentById(id);
     }
 }

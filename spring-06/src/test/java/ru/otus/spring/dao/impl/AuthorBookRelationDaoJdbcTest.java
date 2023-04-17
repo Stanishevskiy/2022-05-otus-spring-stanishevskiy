@@ -10,13 +10,13 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
-@DisplayName("DAO for AuthorBookMerging")
+@DisplayName("DAO for AuthorBookRelation")
 @JdbcTest
-@Import(AuthorBookMergingDaoJdbc.class)
-class AuthorBookMergingDaoJdbcTest {
+@Import(AuthorBookRelationDaoJdbc.class)
+class AuthorBookRelationDaoJdbcTest {
 
     @Autowired
-    AuthorBookMergingDaoJdbc jdbc;
+    AuthorBookRelationDaoJdbc jdbc;
 
     @DisplayName("Add valid author book ids")
     @Test
@@ -49,8 +49,8 @@ class AuthorBookMergingDaoJdbcTest {
     @DisplayName("Correct update author id")
     @Test
     void updateAuthorId() {
-        var expectedResult = List.of(1L, 2L, 3L);
-        jdbc.updateAuthorId(1, 2);
+        var expectedResult = List.of(1L, 3L);
+        jdbc.updateAuthorIdByBookId(1, 2);
 
         var resultIds = jdbc.bookIdsByAuthor(2);
         assertThat(resultIds).containsExactlyElementsOf(expectedResult);
@@ -59,8 +59,8 @@ class AuthorBookMergingDaoJdbcTest {
     @DisplayName("Correct update book id")
     @Test
     void updateBookId() {
-        var expectedResult = List.of(1L, 2L);
-        jdbc.updateBookId(3L, 1L);
+        var expectedResult = List.of(1L, 3L);
+        jdbc.updateBookIdByAuthorId(3, 1);
 
         var resultIds = jdbc.authorIdsByBook(1);
         assertThat(resultIds).containsExactlyElementsOf(expectedResult);

@@ -1,6 +1,8 @@
 package ru.otus.spring.service;
 
 import ru.otus.spring.domain.Author;
+import ru.otus.spring.domain.Book;
+import ru.otus.spring.domain.Comment;
 import ru.otus.spring.domain.Genre;
 
 public interface BookstoreService {
@@ -38,4 +40,24 @@ public interface BookstoreService {
     void findBooksByGenreName(String genreName);
 
     void findBooksByAuthorName(String authorName);
+
+    void updateBook(Book book, long authorId);
+
+    void deleteBookById(long id);
+
+    //-----------------------------------------------------------------------------------------------------------------
+
+
+
+    //-----------------------------------------------------------------------------------------------------------------
+
+    void addComment(String description, long bookId);
+
+    void getAllComments();
+
+    void getCommentsByBookName(String bookName);
+
+    void updateComment(Comment comment);
+
+    void deleteCommentById(long id);
 }

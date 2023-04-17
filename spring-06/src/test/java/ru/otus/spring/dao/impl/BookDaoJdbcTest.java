@@ -13,13 +13,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("DAO for Book")
 @JdbcTest
-@Import({BookDaoJdbc.class, AuthorBookMergingDaoJdbc.class})
+@Import({BookDaoJdbc.class, AuthorBookRelationDaoJdbc.class})
 class BookDaoJdbcTest {
 
     @Autowired
     BookDaoJdbc bookDao;
     @Autowired
-    AuthorBookMergingDaoJdbc mergingDao;
+    AuthorBookRelationDaoJdbc mergingDao;
 
 
     @DisplayName("Add valid book")

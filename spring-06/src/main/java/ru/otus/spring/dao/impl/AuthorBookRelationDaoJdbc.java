@@ -4,14 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
 import org.springframework.stereotype.Repository;
-import ru.otus.spring.dao.AuthorBookMergingDao;
+import ru.otus.spring.dao.AuthorBookRelationDao;
 
 import java.util.List;
 import java.util.Map;
 
 @Repository
 @RequiredArgsConstructor
-public class AuthorBookMergingDaoJdbc implements AuthorBookMergingDao {
+public class AuthorBookRelationDaoJdbc implements AuthorBookRelationDao {
 
     private final NamedParameterJdbcOperations jdbc;
 
@@ -42,20 +42,20 @@ public class AuthorBookMergingDaoJdbc implements AuthorBookMergingDao {
     }
 
     @Override
-    public void updateAuthorId(long oldId, long newId) {
+    public void updateAuthorIdByBookId(long bookId, long authorId) {
         var query = "update author_book " +
-                "set author_id = :author_new " +
-                "where author_id = :author_old";
-        var params = Map.of("author_old", oldId, "author_new", newId);
+                "set author_id = :authorId " +
+                "where book_id = :bookId";
+        var params = Map.of("bookId", bookId, "authorId", authorId);
         jdbc.update(query, params);
     }
 
     @Override
-    public void updateBookId(long oldId, long newId) {
+    public void updateBookIdByAuthorId(long authorId, long bookId) {
         var query = "update author_book " +
-                "set book_id = :book_new " +
-                "where book_id = :book_old";
-        var params = Map.of("book_old", oldId, "book_new", newId);
+                "set book_id = :bookId " +
+                "where author_id = :authorId";
+        var params = Map.of("authorId", authorId, "bookId", bookId);
         jdbc.update(query, params);
     }
 

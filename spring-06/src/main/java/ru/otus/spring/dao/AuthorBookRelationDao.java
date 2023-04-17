@@ -2,7 +2,7 @@ package ru.otus.spring.dao;
 
 import java.util.List;
 
-public interface AuthorBookMergingDao {
+public interface AuthorBookRelationDao {
 
     void addAuthorBookIds(long authorId, long bookId);
 
@@ -10,9 +10,9 @@ public interface AuthorBookMergingDao {
 
     List<Long> authorIdsByBook(long id);
 
-    void updateAuthorId(long oldId, long newId);
+    void updateAuthorIdByBookId(long bookId, long authorId);
 
-    void updateBookId(long oldId, long newId);
+    void updateBookIdByAuthorId(long authorId, long bookId);
 
     void deleteAuthorId(long id);
 
